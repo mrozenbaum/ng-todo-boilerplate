@@ -1,25 +1,24 @@
 "use strict";
-// Letting app know we are using this todoapp
-var app = angular.module("TodoApp", ["ngRoute"]);
 
+var app = angular.module("TodoApp", ["ngRoute"])
+.constant('FirebaseURL', "https://todolist-d3948.firebaseio.com");
 
 app.config(function($routeProvider){
   $routeProvider.
-  when('/items/list', {
+  when('/items/list',{
+    // goes to ng-view
     templateUrl: "partials/item-list.html",
-    // Its good practice to have capitol letters in beginning of controller files
-    controller: "ItemListCtrl"
+    controller: 'ItemListCtrl'
   }).
   when('/items/new', {
     templateUrl: "partials/item-form.html",
-    controller: "ItemNewCtrl"
+    controller: 'ItemNewCtrl'
   }).
-  when('/items/details', {
+  when('/items/:itemId', {
     templateUrl: "partials/item-details.html",
-    controller: "ItemViewCtrl"
+    controller: 'ItemViewCtrl'
   }).
-  otherwise("/items/list");
+  otherwise('/items/list');
 });
-
 
 

@@ -10,7 +10,7 @@ app.controller("TodoCtrl", function($scope, $location){
   $scope.newTask = {};
 
 
-
+  // making function for the URL-- go to APP.JS
   // functionality for new item
   // button in html
   $scope.newItem = function(){
