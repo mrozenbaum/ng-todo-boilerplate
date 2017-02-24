@@ -1,20 +1,20 @@
 "use strict";
 //$q is how we will make our database calls, returns promise
-app.factory("ItemStorage", (FirebaseURL, $q, $http) => {
+app.factory("ItemStorage", ($q, $http, FBCreds, AuthFactory) => {
 
-  let getItemList = () => {
+  let getItemList = (user) => {
     console.log("this should fire");
     // Make something to hold items from firebase database
     let items = [];
 
     return $q((resolve, reject) => {
-      // plug in url, we want it to evaluate it
-      $http.get(`${FirebaseURL}/items.json`)
+      // plug in url, we want it to evaluate on (user uid)
+      $http.get(`${FBCreds.databaseURL}/items.json?orderBy="uid"&equalTo="${user}"`)
 
       .then((itemObject) => {
         // get keys for all of the items
         let itemCollection = itemObject.data;
-
+        console.log("item collection:", itemCollection);
         Object.keys(itemCollection).forEach((key) => {
           // setting the ID to the key
           itemCollection[key].id = key;
@@ -32,7 +32,7 @@ app.factory("ItemStorage", (FirebaseURL, $q, $http) => {
   let postNewItem = (newItem) => {
     return $q((resolve, reject) => {
       // Tell it to which collecton to post it to
-      $http.post(`${FirebaseURL}/items.json`,
+      $http.post(`${FBCreds.databaseURL}/items.json`,
         JSON.stringify(newItem))
       .then((ObjectFromFirebase) => {
         resolve(ObjectFromFirebase);
@@ -47,7 +47,7 @@ app.factory("ItemStorage", (FirebaseURL, $q, $http) => {
   let deleteItem = (itemId) => {
     console.log("delete in factory", itemId);
     return $q((resolve, reject) => {
-      $http.delete(`${FirebaseURL}/items/${itemId}.json`)
+      $http.delete(`${FBCreds.databaseURL}/items/${itemId}.json`)
       .then((ObjectFromFirebase) => {
         resolve(ObjectFromFirebase);
       });
@@ -59,3 +59,4 @@ app.factory("ItemStorage", (FirebaseURL, $q, $http) => {
   return{getItemList, postNewItem, deleteItem};
 
 });
+

@@ -1,11 +1,9 @@
 "use strict";
 // Our nav controller
-app.controller("NavCtrl", function($scope) {
-  $scope.navItems = [
-  {name: "Logout"}, 
-  {name: "All Items"}, 
-  {name: "New Item"}
-
-  ];
+// Factories send info to controllers
+// Controllers cant talk to each other
+app.controller("NavCtrl", function($scope, $window, SearchTermData) {
+  $scope.searchText = SearchTermData;
+  $scope.inLoggedIn = false;
 
 });

@@ -2,4 +2,4 @@
 lib/bower_components
 lib/node_modules
 css/
-app/app.js
+app/values/fb-creds.js

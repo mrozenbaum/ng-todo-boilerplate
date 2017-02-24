@@ -1,8 +1,10 @@
 "use strict";
 
-app.controller("ItemNewCtrl", function($scope, ItemStorage, $location){
+app.controller("ItemNewCtrl", function($scope, ItemStorage, $location, AuthFactory){
   
-
+  let user = AuthFactory.getUser();
+  $scope.title = ////////// need something here //////////
+  // Obj for tasks
   $scope.newTask = {
     assignedTo: "",
     dependencies: "",
@@ -10,7 +12,8 @@ app.controller("ItemNewCtrl", function($scope, ItemStorage, $location){
     isCompleted: "",
     location: "",
     task: "",
-    urgency: ""
+    urgency: "",
+    uid: user
   };
 
   // function for adding new item to new task
@@ -19,7 +22,7 @@ app.controller("ItemNewCtrl", function($scope, ItemStorage, $location){
     // created obj up on page, now using it here
     ItemStorage.postNewItem($scope.newTask)
     .then(function(response){
-      $location.url("items/list");
+      $location.url("/items/list");
     });
     console.log("you added a new item", $scope.newTask);
     $scope.newTask = {};
