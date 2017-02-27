@@ -11,10 +11,11 @@
         <a class="navbar-brand" href="#">Todo App</a>
       </div>
       <div class="row">
-        <div class="col-xs-6 col-xs-offset-3">
+      <!-- will only show if user is logged in -->
+        <div class="col-xs-6 col-xs-offset-3" ng-show="isLoggedIn">
           <div class="input-group">
             <span class="input-group-btn">
-             <button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+             <button class="btn btn-default"><i class="fa fa-search" aria-hidden="true">GO</i></button>
             </span>
             <!-- TODO: Bind the input to our todo list -->
             <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText.search">
@@ -25,6 +26,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <!-- TODO: Use Angular to loop through nav items -->
         <ul class="nav navbar-nav navbar-right">
+        <!-- ng show if user is logged in/out display this nav bar -->
           <li ng-show="!isLoggedIn"><a ng-href="#!/login"></a>Login</li>
           <li ng-show="isLoggedIn"><a ng-href="#!/items/new">New Items</a></li>
           <li ng-show="isLoggedIn"><a ng-href="#!/items/list">All Items</a></li>

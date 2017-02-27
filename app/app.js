@@ -31,7 +31,7 @@ app.config(function($routeProvider){
   // When we login, go to login screen
   when('/login', {
     templateUrl: 'partials/login.html',
-    controller: "userCtrl"
+    controller: "UserCtrl"
   }).
   // When you logout, go to login screen
   when('/logout', {
@@ -68,7 +68,7 @@ app.run(($location, FBCreds) => {
   let authConfig = {
     apiKey: creds.apiKey,
     authDomain: creds.authDomain,
-    atabaseURL: creds.databaseURL
+    databaseURL: creds.databaseURL
   };
 
   firebase.initializeApp(authConfig);

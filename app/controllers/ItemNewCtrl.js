@@ -3,13 +3,14 @@
 app.controller("ItemNewCtrl", function($scope, ItemStorage, $location, AuthFactory){
   
   let user = AuthFactory.getUser();
-  $scope.title = ////////// need something here //////////
-  // Obj for tasks
+  $scope.title ="New Todo";
+  $scope.btnText = "Submit"; 
+
   $scope.newTask = {
     assignedTo: "",
     dependencies: "",
     dueData: "",
-    isCompleted: "",
+    isCompleted: false,
     location: "",
     task: "",
     urgency: "",

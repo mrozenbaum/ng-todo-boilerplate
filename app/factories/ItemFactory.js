@@ -1,6 +1,6 @@
 "use strict";
 //$q is how we will make our database calls, returns promise
-app.factory("ItemStorage", ($q, $http, FBCreds, AuthFactory) => {
+app.factory("ItemStorage", ($q, $http, FBCreds) => {
 
   let getItemList = (user) => {
     console.log("this should fire");
@@ -9,8 +9,8 @@ app.factory("ItemStorage", ($q, $http, FBCreds, AuthFactory) => {
 
     return $q((resolve, reject) => {
       // plug in url, we want it to evaluate on (user uid)
+      console.log("user list:",`${FBCreds.databaseURL}/items.json?orderBy="uid"&equalTo="${user}"`);
       $http.get(`${FBCreds.databaseURL}/items.json?orderBy="uid"&equalTo="${user}"`)
-
       .then((itemObject) => {
         // get keys for all of the items
         let itemCollection = itemObject.data;
@@ -52,11 +52,36 @@ app.factory("ItemStorage", ($q, $http, FBCreds, AuthFactory) => {
         resolve(ObjectFromFirebase);
       });
     });
+  };
 
+  let getSingleItem = (itemId) => {
+    return $q(function(resolve, reject) {
+      $http.get(`${FBCreds.databaseURL}/items/${itemId}.json`)
+      .then(function(itemObject){
+        resolve(itemObject.data);
+      })
+      .catch(function(error){
+        reject(error);
+      });
+    });
+  };
+
+  let updateItem = (itemId, editedItem) => {
+    // Properties with leading $$ characters will be stripped since AngularJS uses these internally
+    return $q(function(resolve, reject){
+      $http.patch(`${FBCreds.databaseURL}/items/${itemId}.json`,
+        angular.toJson(editedItem))
+      .then(function(ObjectFromFirebase){
+        resolve(ObjectFromFirebase);
+      })
+      .catch(function(error){
+        reject(error);
+      });
+    });
   };
 
   // We will return these so they can be part of Item storage
-  return{getItemList, postNewItem, deleteItem};
+  return{getItemList, postNewItem, deleteItem, getSingleItem, updateItem};
 
 });
 
